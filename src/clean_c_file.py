@@ -4,6 +4,8 @@ import os
 import sys
 import logger
 
+DELETE_LIST = [".c", ".o", ".cpp"]
+
 def parseDirs(objs):
     if not objs:
         print '[X] Directory is not specific. System will terminate.'
@@ -34,7 +36,7 @@ def rmCFiles(objs, log_file = None, options = None):
     counter = 0
     total = calcCOFile(objs)
     for item in objs:
-        if item[-2:] in [".c", ".o"]:
+        if item[-2:] in DELETE_LIST:
             if options:
                 ask = raw_input('<%s> will be deleted. Are you sure? <Y/y to confirm> #' % os.path.abspath(item))
                 if ("y" == ask) or ("Y" == ask):
@@ -61,13 +63,26 @@ def rmCFiles(objs, log_file = None, options = None):
                 else:
                     displayProgress(total-counter, total)
                     os.unlink(os.path.abspath(item))
+        if "readme" in item.lower():
+            if log_file:
+                try:
+                    log_file.writeToFile("[D]: %s" % os.path.abspath(item))
+                    os.unlink(os.path.abspath(item))
+                except AttributeError, e:
+                    print '<rmCFiles> : ', e
+                except WindowsError, e:
+                    print '<rmCFiles> : ', e
+            else:
+                os.unlink(os.path.abspath(item))
     return counter
 
 def calcCOFile(objs):
     total = 0
     
     for item in objs:
-        if item[-2:] in [".c", ".o"]:
+        if item[-2:] in DELETE_LIST:
+            total += 1
+        if "readme" in item.lower():
             total += 1
 
     return total        
