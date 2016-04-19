@@ -36,7 +36,7 @@ def rmCFiles(objs, log_file = None, options = None):
     counter = 0
     total = calcCOFile(objs)
     for item in objs:
-        if (item[-2:] in DELETE_LIST) or ("readme" in item.lower()):
+        if ("readme" in item.lower()) or (getSuffix(item) in DELETE_LIST):
             if options:
                 ask = raw_input('<%s> will be deleted. Are you sure? <Y/y to confirm> #' % os.path.abspath(item))
                 if ("y" == ask) or ("Y" == ask):
@@ -75,7 +75,20 @@ def calcCOFile(objs):
         if (item[-2:] in DELETE_LIST) or ("readme" in item.lower()):
             total += 1
 
-    return total        
+    return total
+
+def getSuffix(obj):
+    '''
+    Return the suffix of specific file
+    '''
+    try:
+        if not obj:
+            return None
+
+        return obj[obj.index('.') : ]
+    except ValueError, e:
+        print obj
+        print '<getSuffix> : ', e
 
 def displayProgress(left, total):
     '''
