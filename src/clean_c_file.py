@@ -44,26 +44,26 @@ def rmCFiles(objs, log_file = None, options = None):
                     if log_file:
                         try:
                             log_file.writeToFile("[D]: %s" % os.path.abspath(item))
-                            displayProgress(total-counter, total)
+                            displayProgress(counter, total)
                             os.unlink(os.path.abspath(item))
                         except AttributeError, e:
                             print '<rmCFiles>: ', e
                     else:
-                        displayProgress(total-counter, total)
+                        displayProgress(counter, total)
                         os.unlink(os.path.abspath(item))
             else:
                 counter += 1
                 if log_file:
                     try:
                         log_file.writeToFile("[D]: %s" % os.path.abspath(item))
-                        displayProgress(total-counter, total)
+                        displayProgress(counter, total)
                         os.unlink(os.path.abspath(item))
                     except AttributeError, e:
                         print '<rmCFiles> : ', e
                     except WindowsError, e:
                         print '<rmCFiles> : ', e
                 else:
-                    displayProgress(total-counter, total)
+                    displayProgress(counter, total)
                     os.unlink(os.path.abspath(item))
 
     return counter
@@ -95,7 +95,7 @@ def displayProgress(left, total):
     Display percentage of total with numeric format.
     '''
     try:
-        print '%d%%\b' % (int(left) / int(total))
+        print '%d%%\b' % int((float(left) / float(total)) * 100.0)
     except ZeroDivisionError, e:
         print e
     except ValueError, e:
