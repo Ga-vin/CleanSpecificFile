@@ -1,0 +1,7 @@
+This tool is used to delete specific file in the specific directory. Any files with any suffix, such as *.c, *.cpp and *.S, can be unlinked from disk. When you want to do this work, you can modify one line DELETE_LIST = [".c", ".o", ".cpp", ".S"] in the source file of clean_c_file.py, any which suffix can be added into this list, or deleted, too.
+
+This tool is to ask you whether you be sure to delete this file which has been found default, if you do not want to do this, the key word "None" can be pasted into rmFile function in the second parameter's location.
+
+This tool is used to in command line. When you want to use it to delete some files, you should in a console, and just input like this:
+# python clean_c_file.py <DIRECTORY>
+In the log directory, logger.txt file is used to logging which files have been deleted.
